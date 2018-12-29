@@ -127,22 +127,8 @@ fib_iter(3,2,0);// -> 2
 
 //lisp pairs in js
 function pairs(head,tail){
-    return (sel)=>{
-        if(sel === 1){
-            return head;
+    return {
+            car:()=>head,
+            cdr:()=>tail
         }
-        else if(sel === 2){
-            return tail;
-        }else{
-            throw new Error('selector should be a 1 or 2!')
-        }
-    }
-}
-
-function car(p){
-    return p(1);
-}
-
-function cdr(p){
-    return p(2);
 }
