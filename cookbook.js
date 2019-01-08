@@ -132,3 +132,30 @@ function pairs(head,tail){
             cdr:()=>tail
         }
 }
+
+//def of pair 
+const cons  =   (x,y)=> (f) => f(x,y);
+const left  =   (f) => f((A,_)=>A);
+const right =   (f) => f((_,D)=>D);
+
+const segment = cons(35,27)//(35,27) 
+left(segment)//35
+right(segment)//27
+
+//def of stream
+const makeSteam = (listData)=>{
+    return listData.map(data=>delay(()=>data))
+}
+
+const delay = (f)=>cache(f);
+const force = (f)=>f();
+
+const cache = (getter)=>{
+    let result;
+    return ()=>{
+        if(!result){
+            result = getter();
+        }
+        return result;
+    }
+}
