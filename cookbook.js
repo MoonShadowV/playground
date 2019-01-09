@@ -147,7 +147,12 @@ const makeSteam = (listData)=>{
     return listData.map(data=>delay(()=>data))
 }
 
-const delay = (f)=>cache(f);
+const consStream = (a,b)=>cons(a,delay(b));
+
+const getVal = (stream) => left(stream);
+const getNext = (stream)=> force(right(stream));
+
+const delay = (exp)=>cache(exp);
 const force = (f)=>f();
 
 const cache = (getter)=>{
@@ -159,3 +164,5 @@ const cache = (getter)=>{
         return result;
     }
 }
+
+const integerN = (n)=>consStream(n,()=>integerN(n+1));
