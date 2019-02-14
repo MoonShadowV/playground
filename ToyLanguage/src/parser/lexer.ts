@@ -2,7 +2,7 @@ import {InputStream} from "./InputStream";
 
 
 export class TokenStream {
-    private current:string | Token;
+    private current:Token;
     private input:InputStream;
 
 
@@ -16,7 +16,6 @@ export class TokenStream {
 
     constructor(input:InputStream){
         this.current = null;
-
         this.input = input;
     }
 
@@ -48,7 +47,7 @@ export class TokenStream {
         return ' \n'.indexOf(ch) >= 0;
     }
 
-    readWhile(predicate:Function){
+    private readWhile(predicate:Function){
         let str:string = "";
         while (!this.input.eof() && predicate(this.input.peek())){
             str += this.input.next();
@@ -56,7 +55,7 @@ export class TokenStream {
         return str;
     }
 
-    readNumber(){
+    private readNumber(){
         let hasDot:boolean = false;
         let number = this.readWhile((ch:string)=>{
             if(ch === "."){
@@ -71,13 +70,13 @@ export class TokenStream {
         return new Token("number",parseFloat(number));
     }
 
-    readIdent(){
+    private readIdent(){
         const id = this.readWhile(TokenStream.isId);
         const type = TokenStream.isKeyWord(id) ? "keyword":"var";
         return new Token(type,id);
     }
 
-    readEscape(end:string){
+    private readEscape(end:string){
         let escaped:boolean = false, str:string = "";
         this.input.next();//去除重叠的""
         while (!this.input.eof()){
@@ -99,17 +98,17 @@ export class TokenStream {
         return str;
     }
 
-    readString(){
+    private readString(){
         const value = this.readEscape(`"`);
         return new Token("string",value);
     }
 
-    skipComment(){
+    private skipComment(){
         this.readWhile((ch:string) => ch !== `\n`);
         this.input.next();
     }
 
-    readNext():Token{
+    private readNext():Token{
         this.readWhile(TokenStream.isWhiteSpace);
 
         if(this.input.eof()){
@@ -147,16 +146,19 @@ export class TokenStream {
         return this.current || (this.current = this.readNext());
     }
     next(){
-        let tok = this.current;
+        let token = this.current;
         this.current = null;
-        return tok || this.readNext();
+        return token || this.readNext();
     }
     eof(){
         return this.peek() === null;
     }
+    croak(msg:string){
+        this.input.croak(msg);
+    }
 }
 
-class Token{
+export class Token{
     type: string;
     value: any;
     constructor(type,value){

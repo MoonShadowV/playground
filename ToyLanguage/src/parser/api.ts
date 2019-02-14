@@ -1,12 +1,11 @@
-class Token {
-    type:string
-
+export class ASTNode {
+    type:string;
     constructor(type: string) {
         this.type = type;
     }
 }
 
-export class NumberToken extends Token{
+export class NumberNode extends ASTNode{
     value:number;
 
     constructor(value: number) {
@@ -15,7 +14,7 @@ export class NumberToken extends Token{
     }
 }
 
-export class StringToken extends Token{
+export class StringNode extends ASTNode{
     value:string;
 
     constructor(value: string) {
@@ -24,7 +23,7 @@ export class StringToken extends Token{
     }
 }
 
-export class BooleanToken extends Token{
+export class BooleanNode extends ASTNode{
     value:boolean;
 
     constructor(value: boolean) {
@@ -33,7 +32,7 @@ export class BooleanToken extends Token{
     }
 }
 
-export class VarToken extends Token{
+export class VarNode extends ASTNode{
     value:string;
 
     constructor(value: string) {
@@ -42,34 +41,34 @@ export class VarToken extends Token{
     }
 }
 
-export class LambdaToken extends Token{
+export class LambdaNode extends ASTNode{
     vars:Array<string>;
-    body:Token;
+    body:ASTNode;
 
-    constructor(vars: Array<string>, body: Token) {
+    constructor(vars: Array<string>, body: ASTNode) {
         super("lambda");
         this.vars = vars;
         this.body = body;
     }
 }
 
-export class CallToken extends Token{
-    func:Token;
-    args:Array<Token>
+export class CallNode extends ASTNode{
+    func:ASTNode;
+    args:Array<ASTNode>;
 
-    constructor(func: Token, args: Array<Token>) {
+    constructor(func: ASTNode, args: Array<ASTNode>) {
         super("call");
         this.func = func;
         this.args = args;
     }
 }
 
-export class IfToken extends Token{
-    cond:Token;
-    then:Token;
-    or:Token;
+export class IfNode extends ASTNode{
+    cond:ASTNode;
+    then:ASTNode;
+    or?:ASTNode;
 
-    constructor(cond: Token, then: Token, or: Token) {
+    constructor(cond: ASTNode, then: ASTNode, or?: ASTNode) {
         super("if");
         this.cond = cond;
         this.then = then;
@@ -79,12 +78,12 @@ export class IfToken extends Token{
 
 }
 
-export class AssignToken extends Token{
+export class AssignNode extends ASTNode{
     operator:string;
-    left:Token;
-    right:Token;
+    left:ASTNode;
+    right:ASTNode;
 
-    constructor(left: Token, right: Token) {
+    constructor(left: ASTNode, right: ASTNode) {
         super("assign");
         this.operator = "=";
         this.left = left;
@@ -92,12 +91,12 @@ export class AssignToken extends Token{
     }
 }
 
-export class BinaryToken extends Token{
+export class BinaryNode extends ASTNode{
     operator:string;
-    left:Token;
-    right:Token;
+    left:ASTNode;
+    right:ASTNode;
 
-    constructor(operator: string, left: Token, right: Token) {
+    constructor(operator: string, left: ASTNode, right: ASTNode) {
         super("binary");
         this.operator = operator;
         this.left = left;
@@ -105,20 +104,20 @@ export class BinaryToken extends Token{
     }
 }
 
-export class ProgToken extends Token{
-    prog:Array<Token>;
+export class ProgNode extends ASTNode{
+    prog:Array<ASTNode>;
 
-    constructor(prog: Array<Token>) {
+    constructor(prog: Array<ASTNode>) {
         super("prog");
         this.prog = prog;
     }
 }
 
-export class LetToken extends Token{
-    vars:Array<Token>;
-    body:Token;
+export class LetNode extends ASTNode{
+    vars:Array<ASTNode>;
+    body:ASTNode;
 
-    constructor(vars: Array<Token>, body: Token) {
+    constructor(vars: Array<ASTNode>, body: ASTNode) {
         super("let");
         this.vars = vars;
         this.body = body;
