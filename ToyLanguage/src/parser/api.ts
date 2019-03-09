@@ -1,12 +1,13 @@
 export class ASTNode {
-    type:string;
+    type: string;
+
     constructor(type: string) {
         this.type = type;
     }
 }
 
-export class NumberNode extends ASTNode{
-    value:number;
+export class NumberNode extends ASTNode {
+    value: number;
 
     constructor(value: number) {
         super("number");
@@ -14,8 +15,8 @@ export class NumberNode extends ASTNode{
     }
 }
 
-export class StringNode extends ASTNode{
-    value:string;
+export class StringNode extends ASTNode {
+    value: string;
 
     constructor(value: string) {
         super("string");
@@ -23,8 +24,8 @@ export class StringNode extends ASTNode{
     }
 }
 
-export class BooleanNode extends ASTNode{
-    value:boolean;
+export class BooleanNode extends ASTNode {
+    value: boolean;
 
     constructor(value: boolean) {
         super("bool");
@@ -32,8 +33,8 @@ export class BooleanNode extends ASTNode{
     }
 }
 
-export class VarNode extends ASTNode{
-    value:string;
+export class VarNode extends ASTNode {
+    value: string;
 
     constructor(value: string) {
         super("var");
@@ -41,9 +42,9 @@ export class VarNode extends ASTNode{
     }
 }
 
-export class LambdaNode extends ASTNode{
-    vars:Array<string>;
-    body:ASTNode;
+export class LambdaNode extends ASTNode {
+    vars: Array<string>;
+    body: ASTNode;
 
     constructor(vars: Array<string>, body: ASTNode) {
         super("lambda");
@@ -52,9 +53,9 @@ export class LambdaNode extends ASTNode{
     }
 }
 
-export class CallNode extends ASTNode{
-    func:ASTNode;
-    args:Array<ASTNode>;
+export class CallNode extends ASTNode {
+    func: ASTNode;
+    args: Array<ASTNode>;
 
     constructor(func: ASTNode, args: Array<ASTNode>) {
         super("call");
@@ -63,10 +64,10 @@ export class CallNode extends ASTNode{
     }
 }
 
-export class IfNode extends ASTNode{
-    cond:ASTNode;
-    then:ASTNode;
-    or?:ASTNode;
+export class IfNode extends ASTNode {
+    cond: ASTNode;
+    then: ASTNode;
+    or?: ASTNode;
 
     constructor(cond: ASTNode, then: ASTNode, or?: ASTNode) {
         super("if");
@@ -78,10 +79,10 @@ export class IfNode extends ASTNode{
 
 }
 
-export class AssignNode extends ASTNode{
-    operator:string;
-    left:ASTNode;
-    right:ASTNode;
+export class AssignNode extends ASTNode {
+    operator: string;
+    left: ASTNode;
+    right: ASTNode;
 
     constructor(left: ASTNode, right: ASTNode) {
         super("assign");
@@ -91,10 +92,10 @@ export class AssignNode extends ASTNode{
     }
 }
 
-export class BinaryNode extends ASTNode{
-    operator:string;
-    left:ASTNode;
-    right:ASTNode;
+export class BinaryNode extends ASTNode {
+    operator: string;
+    left: ASTNode;
+    right: ASTNode;
 
     constructor(operator: string, left: ASTNode, right: ASTNode) {
         super("binary");
@@ -104,8 +105,8 @@ export class BinaryNode extends ASTNode{
     }
 }
 
-export class ProgNode extends ASTNode{
-    prog:Array<ASTNode>;
+export class ProgNode extends ASTNode {
+    prog: Array<ASTNode>;
 
     constructor(prog: Array<ASTNode>) {
         super("prog");
@@ -113,9 +114,9 @@ export class ProgNode extends ASTNode{
     }
 }
 
-export class LetNode extends ASTNode{
-    vars:Array<ASTNode>;
-    body:ASTNode;
+export class LetNode extends ASTNode {
+    vars: Array<ASTNode>;
+    body: ASTNode;
 
     constructor(vars: Array<ASTNode>, body: ASTNode) {
         super("let");
