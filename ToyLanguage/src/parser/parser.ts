@@ -1,5 +1,6 @@
 import {AssignNode, ASTNode, BinaryNode, BooleanNode, CallNode, IfNode, LambdaNode, ProgNode} from "./api";
 import {Token, TokenStream} from "./lexer";
+import {KEYWORD, OPERATOR, PUNCTUATION, VAR} from "./constans";
 
 const FALSE = new BooleanNode(false);
 
@@ -26,17 +27,17 @@ export class Parser {
 
     isPunctuation(ch?: string) {
         const token: Token = this.input.peek();
-        return token && token.type === "punctuation" && (!ch || token.value === ch) && token;
+        return token && token.type === PUNCTUATION && (!ch || token.value === ch) && token;
     };
 
     isKeyword(keyword?: string) {
         const token: Token = this.input.peek();
-        return token && token.type === "keyword" && (!keyword || token.value === keyword) && token;
+        return token && token.type === KEYWORD && (!keyword || token.value === keyword) && token;
     };
 
     isOperator(op?: string) {
         const token: Token = this.input.peek();
-        return token && token.type === "operator" && (!op || token.value === op) && token;
+        return token && token.type === OPERATOR && (!op || token.value === op) && token;
     };
 
     skipPunctuation(ch: string) {
@@ -124,7 +125,7 @@ export class Parser {
 
     parseVarname() {
         const name = this.input.next();
-        if (name.type !== "var") {
+        if (name.type !== VAR) {
             this.input.croak("Expecting variable name");
         }
         return name.value;

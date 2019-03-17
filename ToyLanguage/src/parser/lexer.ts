@@ -1,4 +1,5 @@
 import {InputStream} from "./InputStream";
+import {KEYWORD, NUMBER, PUNCTUATION, STRING, VAR} from "./constans";
 
 
 export class TokenStream {
@@ -46,7 +47,7 @@ export class TokenStream {
     static isWhiteSpace(ch: string) {
         return ' \n'.indexOf(ch) >= 0;
     }
-
+    //根据传入的判断函数来读取对应的Token
     private readWhile(predicate: Function) {
         let str: string = "";
         while (!this.input.eof() && predicate(this.input.peek())) {
@@ -67,12 +68,12 @@ export class TokenStream {
             }
             return TokenStream.isDigit(ch);
         });
-        return new Token("number", parseFloat(number));
+        return new Token(NUMBER, parseFloat(number));
     }
 
     private readIdent() {
         const id = this.readWhile(TokenStream.isId);
-        const type = TokenStream.isKeyWord(id) ? "keyword" : "var";
+        const type = TokenStream.isKeyWord(id) ? KEYWORD : VAR;
         return new Token(type, id);
     }
 
@@ -97,7 +98,7 @@ export class TokenStream {
 
     private readString() {
         const value = this.readEscape(`"`);
-        return new Token("string", value);
+        return new Token(STRING, value);
     }
 
     private skipComment() {
@@ -129,7 +130,7 @@ export class TokenStream {
         }
         if (TokenStream.isPunctuation(ch)) {
             const value = this.input.next();
-            return new Token("punctuation", value);
+            return new Token(PUNCTUATION, value);
         }
         if (TokenStream.isOpChar(ch)) {
             const value = this.readWhile(TokenStream.isOpChar);

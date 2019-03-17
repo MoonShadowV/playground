@@ -1,16 +1,20 @@
+import {ASSIGN, BINARY, BOOLEAN, CALL, IF, LAMBDA, LET, NUMBER, PROG, STRING, VAR} from "./constans";
+
+
 export class ASTNode {
     type: string;
-
     constructor(type: string) {
         this.type = type;
     }
 }
 
 export class NumberNode extends ASTNode {
+
     value: number;
 
     constructor(value: number) {
-        super("number");
+        super(NUMBER);
+        this.type = NUMBER;
         this.value = value;
     }
 }
@@ -19,7 +23,8 @@ export class StringNode extends ASTNode {
     value: string;
 
     constructor(value: string) {
-        super("string");
+        super(STRING);
+        this.type = STRING;
         this.value = value;
     }
 }
@@ -28,7 +33,7 @@ export class BooleanNode extends ASTNode {
     value: boolean;
 
     constructor(value: boolean) {
-        super("bool");
+        super(BOOLEAN);
         this.value = value;
     }
 }
@@ -37,7 +42,7 @@ export class VarNode extends ASTNode {
     value: string;
 
     constructor(value: string) {
-        super("var");
+        super(VAR);
         this.value = value;
     }
 }
@@ -47,7 +52,7 @@ export class LambdaNode extends ASTNode {
     body: ASTNode;
 
     constructor(vars: Array<string>, body: ASTNode) {
-        super("lambda");
+        super(LAMBDA);
         this.vars = vars;
         this.body = body;
     }
@@ -58,7 +63,7 @@ export class CallNode extends ASTNode {
     args: Array<ASTNode>;
 
     constructor(func: ASTNode, args: Array<ASTNode>) {
-        super("call");
+        super(CALL);
         this.func = func;
         this.args = args;
     }
@@ -70,7 +75,7 @@ export class IfNode extends ASTNode {
     or?: ASTNode;
 
     constructor(cond: ASTNode, then: ASTNode, or?: ASTNode) {
-        super("if");
+        super(IF);
         this.cond = cond;
         this.then = then;
         this.or = or;
@@ -85,7 +90,7 @@ export class AssignNode extends ASTNode {
     right: ASTNode;
 
     constructor(left: ASTNode, right: ASTNode) {
-        super("assign");
+        super(ASSIGN);
         this.operator = "=";
         this.left = left;
         this.right = right;
@@ -98,7 +103,7 @@ export class BinaryNode extends ASTNode {
     right: ASTNode;
 
     constructor(operator: string, left: ASTNode, right: ASTNode) {
-        super("binary");
+        super(BINARY);
         this.operator = operator;
         this.left = left;
         this.right = right;
@@ -109,7 +114,7 @@ export class ProgNode extends ASTNode {
     prog: Array<ASTNode>;
 
     constructor(prog: Array<ASTNode>) {
-        super("prog");
+        super(PROG);
         this.prog = prog;
     }
 }
@@ -119,7 +124,7 @@ export class LetNode extends ASTNode {
     body: ASTNode;
 
     constructor(vars: Array<ASTNode>, body: ASTNode) {
-        super("let");
+        super(LET);
         this.vars = vars;
         this.body = body;
     }
